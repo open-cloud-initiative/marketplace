@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package oci.marketplace.catalog.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/open-cloud-initiative/marketplace/gen/catalog/v1;catalog";
+
+// A set of methods to control the marketplace catalog.
+service CatalogService {
+}

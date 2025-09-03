@@ -1,4 +1,4 @@
-module github.com/open-cloud-initiative/template-go
+module github.com/open-cloud-initiative/marketplace
 
 go 1.24
 
