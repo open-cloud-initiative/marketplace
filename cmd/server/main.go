@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/open-cloud-initiative/marketplace/cmd"
+	"github.com/open-cloud-initiative/marketplace/cmd/server/cmd"
 )
 
 func main() {

@@ -3,7 +3,7 @@ root = "."
 tmp_dir = "tmp"
 
 [build]
-  cmd = "go build -o ./tmp/main main.go"
+  cmd = "go build -o ./tmp/main cmd/server/main.go"
   bin = "./tmp/main"
   full_bin = "export $(grep -v '^#' .env | xargs); dlv exec ./tmp/main --listen=127.0.0.1:2345 --headless=true --api-version=2 --accept-multiclient --continue --log -- "
   delay = 1000 # ms

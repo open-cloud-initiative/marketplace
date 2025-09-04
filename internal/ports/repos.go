@@ -18,7 +18,9 @@ type Datastore interface {
 }
 
 // ReadTx provides methods for transactional read operations.
-type ReadTx interface{}
+type ReadTx interface {
+	GetCatalog(ctx context.Context, catalog *models.Catalog) error
+}
 
 // ReadWriteTx provides methods for transactional read and write operations.
 type ReadWriteTx interface {

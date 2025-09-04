@@ -36,8 +36,15 @@ func NewWriteTx() dbx.ReadWriteTxFactory[ports.ReadWriteTx] {
 }
 
 // CreateCatalog ...
-func (r *readTxImpl) CreateCatalog(ctx context.Context, design *models.Catalog) error {
+func (r *writeTxImpl) CreateCatalog(ctx context.Context, design *models.Catalog) error {
 	return r.conn.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		return tx.Create(design).Error
+	})
+}
+
+// GetCatalog ...
+func (r *readTxImpl) GetCatalog(ctx context.Context, catalog *models.Catalog) error {
+	return r.conn.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		return tx.First(catalog, catalog.ID).Error
 	})
 }

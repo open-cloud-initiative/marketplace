@@ -6,8 +6,8 @@ import (
 	"net"
 	"time"
 
+	config "github.com/open-cloud-initiative/marketplace/cmd/server/cfg"
 	"github.com/open-cloud-initiative/marketplace/internal/adapters/db"
-	config "github.com/open-cloud-initiative/marketplace/internal/cfg"
 	"github.com/open-cloud-initiative/marketplace/internal/controllers"
 	pb "github.com/open-cloud-initiative/marketplace/proto/catalog/v1"
 	"gorm.io/gorm"
@@ -52,8 +52,8 @@ func Init() error {
 }
 
 var RootCmd = &cobra.Command{
-	Use:   "tags",
-	Short: "tags",
+	Use:   "marketplace",
+	Short: "marketplace",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return runRoot(cmd.Context(), args...)
 	},

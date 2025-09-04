@@ -17,9 +17,20 @@ service CatalogService {
   rpc Create (CreateCatalogRequest) returns (Catalog) {
     option (google.api.http) = { post: "/catalog/v1/catalogs" body: "*" };
   };
+  
+  // Get a new Catalog
+  rpc Get (GetCatalogRequest) returns (Catalog) {
+    option (google.api.http) = { get: "/catalog/v1/catalogs/{id}" };
+  };
 }
 
 message CreateCatalogRequest {
   // Required. The catalog to create.
   Catalog catalog = 1;
+}
+
+// GetCatalogRequest is the request message for the Get method.
+message GetCatalogRequest {
+  // Required. The ID of the catalog to retrieve.
+  string id = 1;
 }
