@@ -1,26 +1,12 @@
 package main
 
 import (
-	"context"
-
-	"github.com/spf13/cobra"
+	"github.com/open-cloud-initiative/marketplace/cmd/cli/cmd"
 )
 
-func Init() error {
-	ctx := context.Background()
-
-	RootCmd.SilenceErrors = true
-	RootCmd.SilenceUsage = true
-
-	err := RootCmd.ExecuteContext(ctx)
+func main() {
+	err := cmd.RootCmd.Execute()
 	if err != nil {
-		return err
+		panic(err)
 	}
-
-	return nil
-}
-
-var RootCmd = &cobra.Command{
-	Use:   "cli",
-	Short: "cli",
 }
