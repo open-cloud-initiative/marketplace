@@ -5,7 +5,7 @@ package oci.marketplace.billing.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 
-option go_package = "github.com/open-cloud-initiative/marketplace/gen/billing/v1;billing";
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/billing/v1;billing";
 
 // A set of methods to control the marketplace catalog.
 service BillingService {

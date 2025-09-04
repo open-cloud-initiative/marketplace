@@ -5,7 +5,7 @@ package oci.marketplace.reporting.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 
-option go_package = "github.com/open-cloud-initiative/marketplace/gen/reporting/v1;reporting";
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/reporting/v1;reporting";
 
 // A set of methods to control the marketplace reporting.
 service ReportingService {

@@ -20,7 +20,7 @@ import "google/protobuf/descriptor.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/open-cloud-initiative/specs/gen/go;cloud";
+option go_package = "github.com/open-cloud-initiative/marketplace/proto;marketplace";
 option java_multiple_files = true;
 option java_outer_classname = "ValidateProto";
 option java_package = "build.buf.validate";

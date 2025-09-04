@@ -5,7 +5,7 @@ package oci.marketplace;
 import "google/api/annotations.proto";
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/open-cloud-initiative/specs/gen/go/api;api";
+option go_package = "github.com/open-cloud-initiative/marketplace/proto;marketplace";
 
 extend google.protobuf.MethodOptions {
   Operation operation = 123456789;

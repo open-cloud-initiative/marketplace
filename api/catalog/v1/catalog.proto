@@ -5,7 +5,7 @@ package oci.marketplace.catalog.v1;
 import "google/protobuf/timestamp.proto";
 import "validation.proto";
 
-option go_package = "github.com/open-cloud-initiative/specs/gen/go/catalog/v1;catalog";
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/v1;catalog";
 
 // Represents a Catalog.
 message Catalog {

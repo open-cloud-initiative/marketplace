@@ -5,12 +5,16 @@ package oci.marketplace.catalog.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 
-option go_package = "github.com/open-cloud-initiative/marketplace/gen/catalog/v1;catalog";
+import "catalog/v1/catalog.proto";
+import "operation.proto";
+import "validation.proto";
+
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/v1;catalog";
 
 // A set of methods to control the marketplace catalog.
 service CatalogService {
   // Creates a new Catalog
-  rpc Create (CreateCatalogRequest) returns (oci.cloud.api.Operation) {
+  rpc Create (CreateCatalogRequest) returns (oci.marketplace.Operation) {
     option (google.api.http) = { post: "/catalog/v1/catalogs" body: "*" };
     option (oci.marketplace.operation) = {
       metadata: "CreateCatalogMetadata"

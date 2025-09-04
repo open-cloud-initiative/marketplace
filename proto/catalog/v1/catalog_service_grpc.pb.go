@@ -7,7 +7,11 @@
 package catalog
 
 import (
+	context "context"
+	proto "github.com/open-cloud-initiative/marketplace/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,6 +23,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CatalogServiceClient interface {
+	// Creates a new Catalog
+	Create(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error)
 }
 
 type catalogServiceClient struct {
@@ -29,14 +35,29 @@ func NewCatalogServiceClient(cc grpc.ClientConnInterface) CatalogServiceClient {
 	return &catalogServiceClient{cc}
 }
 
+func (c *catalogServiceClient) Create(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
+	out := new(proto.Operation)
+	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/Create", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CatalogServiceServer is the server API for CatalogService service.
 // All implementations should embed UnimplementedCatalogServiceServer
 // for forward compatibility
 type CatalogServiceServer interface {
+	// Creates a new Catalog
+	Create(context.Context, *CreateCatalogRequest) (*proto.Operation, error)
 }
 
 // UnimplementedCatalogServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedCatalogServiceServer struct {
+}
+
+func (UnimplementedCatalogServiceServer) Create(context.Context, *CreateCatalogRequest) (*proto.Operation, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 
 // UnsafeCatalogServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -50,13 +71,36 @@ func RegisterCatalogServiceServer(s grpc.ServiceRegistrar, srv CatalogServiceSer
 	s.RegisterService(&CatalogService_ServiceDesc, srv)
 }
 
+func _CatalogService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCatalogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/Create",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).Create(ctx, req.(*CreateCatalogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CatalogService_ServiceDesc is the grpc.ServiceDesc for CatalogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CatalogService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "oci.marketplace.catalog.v1.CatalogService",
 	HandlerType: (*CatalogServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "catalog/v1/catalog_service.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Create",
+			Handler:    _CatalogService_Create_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "catalog/v1/catalog_service.proto",
 }
