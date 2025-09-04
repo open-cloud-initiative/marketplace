@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/open-cloud-initiative/marketplace/internal/adapters/db"
+	"github.com/open-cloud-initiative/marketplace/internal/models"
 
 	"github.com/katallaxie/pkg/dbx"
 	"github.com/spf13/cobra"
@@ -28,6 +29,7 @@ var Migrate = &cobra.Command{
 
 		return store.Migrate(
 			cmd.Context(),
+			&models.Catalog{},
 		)
 	},
 }

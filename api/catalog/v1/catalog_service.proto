@@ -14,20 +14,12 @@ option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/
 // A set of methods to control the marketplace catalog.
 service CatalogService {
   // Creates a new Catalog
-  rpc Create (CreateCatalogRequest) returns (oci.marketplace.Operation) {
+  rpc Create (CreateCatalogRequest) returns (Catalog) {
     option (google.api.http) = { post: "/catalog/v1/catalogs" body: "*" };
-    option (oci.marketplace.operation) = {
-      metadata: "CreateCatalogMetadata"
-      response: "Catalog"
-    };
   };
 }
 
 message CreateCatalogRequest {
   // Required. The catalog to create.
   Catalog catalog = 1;
-}
-
-message CreateCatalogMetadata {
-  string catalog_id = 1;
 }

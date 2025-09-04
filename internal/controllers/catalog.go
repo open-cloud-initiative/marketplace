@@ -3,12 +3,10 @@ package controllers
 import (
 	"context"
 
+	"github.com/open-cloud-initiative/marketplace/internal/models"
 	"github.com/open-cloud-initiative/marketplace/internal/ports"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
 	"github.com/katallaxie/pkg/dbx"
-	ops "github.com/open-cloud-initiative/marketplace/proto"
 	pb "github.com/open-cloud-initiative/marketplace/proto/catalog/v1"
 )
 
@@ -27,6 +25,19 @@ func NewCatalogController(store dbx.Database[ports.ReadTx, ports.ReadWriteTx]) *
 }
 
 // Create implements pb.CatalogServiceServer
-func (c *CatalogController) Create(ctx context.Context, req *pb.CreateCatalogRequest) (*ops.Operation, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (c *CatalogController) Create(ctx context.Context, req *pb.CreateCatalogRequest) (*pb.Catalog, error) {
+	catalog := models.Catalog{
+		Name: req.Catalog.Name,
+	}
+
+	if err := c.store.ReadWriteTx(ctx, func(ctx context.Context, rw ports.ReadWriteTx) error {
+		return rw.CreateCatalog(ctx, &catalog)
+	}); err != nil {
+		return nil, err
+	}
+
+	return &pb.Catalog{
+		Id:   catalog.ID.String(),
+		Name: catalog.Name,
+	}, nil
 }

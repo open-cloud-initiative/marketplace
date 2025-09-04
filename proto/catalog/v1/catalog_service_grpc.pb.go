@@ -8,7 +8,6 @@ package catalog
 
 import (
 	context "context"
-	proto "github.com/open-cloud-initiative/marketplace/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -24,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CatalogServiceClient interface {
 	// Creates a new Catalog
-	Create(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error)
+	Create(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
 }
 
 type catalogServiceClient struct {
@@ -35,8 +34,8 @@ func NewCatalogServiceClient(cc grpc.ClientConnInterface) CatalogServiceClient {
 	return &catalogServiceClient{cc}
 }
 
-func (c *catalogServiceClient) Create(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
-	out := new(proto.Operation)
+func (c *catalogServiceClient) Create(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error) {
+	out := new(Catalog)
 	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -49,14 +48,14 @@ func (c *catalogServiceClient) Create(ctx context.Context, in *CreateCatalogRequ
 // for forward compatibility
 type CatalogServiceServer interface {
 	// Creates a new Catalog
-	Create(context.Context, *CreateCatalogRequest) (*proto.Operation, error)
+	Create(context.Context, *CreateCatalogRequest) (*Catalog, error)
 }
 
 // UnimplementedCatalogServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedCatalogServiceServer struct {
 }
 
-func (UnimplementedCatalogServiceServer) Create(context.Context, *CreateCatalogRequest) (*proto.Operation, error) {
+func (UnimplementedCatalogServiceServer) Create(context.Context, *CreateCatalogRequest) (*Catalog, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 

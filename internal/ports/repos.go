@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/katallaxie/pkg/dbx"
+	"github.com/open-cloud-initiative/marketplace/internal/models"
 )
 
 // Datastore provides methods for transactional operations.
@@ -21,5 +22,6 @@ type ReadTx interface{}
 
 // ReadWriteTx provides methods for transactional read and write operations.
 type ReadWriteTx interface {
+	CreateCatalog(ctx context.Context, design *models.Catalog) error
 	ReadTx
 }
