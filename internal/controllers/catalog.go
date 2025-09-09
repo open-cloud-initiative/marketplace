@@ -16,6 +16,7 @@ var _ pb.CatalogServiceServer = (*CatalogController)(nil)
 // CatalogController is the controller for managing catalog items.
 type CatalogController struct {
 	store dbx.Database[ports.ReadTx, ports.ReadWriteTx]
+	pb.UnimplementedCatalogServiceServer
 }
 
 // NewCatalogController creates a new CatalogController.
@@ -45,7 +46,7 @@ func (c *CatalogController) Create(ctx context.Context, req *pb.CreateCatalogReq
 
 // Get implements pb.CatalogServiceServer
 func (c *CatalogController) Get(ctx context.Context, req *pb.GetCatalogRequest) (*pb.Catalog, error) {
-	id, err := uuid.Parse(req.Id)
+	id, err := uuid.Parse(req.CatalogId)
 	if err != nil {
 		return nil, err
 	}
