@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package oci.marketplace.catalog.v1;
+
+import "google/protobuf/timestamp.proto";
+import "validation.proto";
+
+import "catalog/v1/catalog.proto";
+
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/v1;catalog";
+
+enum ChangeSetStatus {
+  // ChangeSetStatusUnspecified is the default value.
+  CHANGE_SET_STATUS_UNSPECIFIED = 0;
+  // ChangeSet is pending.
+  CHANGE_SET_STATUS_PENDING = 1;
+  // ChangeSet is applied.
+  CHANGE_SET_STATUS_APPLIED = 2;
+  // ChangeSet is failed.
+  CHANGE_SET_STATUS_FAILED = 3;
+}
+
+// Change represents a single change to be applied to a catalog.
+message Change {
+  // Name of the change. Must be unique within the ChangeSet.
+  string name = 1;
+  // Description of the change.
+  string description = 2;
+}
+
+// ChangeSet represents a set of changes to be applied to a catalog.
+message ChangeSet {
+  // Catalog identifier.
+  Catalog catalog = 1;
+  // Name of the ChangeSet. Must be unique within the catalog.
+  string name = 2;
+  // Changes in the ChangeSet.
+  repeated Change changes = 3;
+}

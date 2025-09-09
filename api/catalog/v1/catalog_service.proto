@@ -9,28 +9,109 @@ import "catalog/v1/catalog.proto";
 import "operation.proto";
 import "validation.proto";
 
+import "catalog/v1/changeset.proto";
+
 option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/v1;catalog";
 
 // A set of methods to control the marketplace catalog.
 service CatalogService {
   // Creates a new Catalog
-  rpc Create (CreateCatalogRequest) returns (Catalog) {
+  rpc CreateCatalog (CreateCatalogRequest) returns (oci.marketplace.Operation) {
     option (google.api.http) = { post: "/catalog/v1/catalogs" body: "*" };
+    option (oci.marketplace.operation) = {
+      metadata: "CreateCatalogMetadata"
+      response: "Catalog"
+    };
   };
-  
-  // Get a new Catalog
-  rpc Get (GetCatalogRequest) returns (Catalog) {
-    option (google.api.http) = { get: "/catalog/v1/catalogs/{id}" };
+
+  // GetCatalog gets a catalog by its ID.
+  rpc GetCatalog (GetCatalogRequest) returns (Catalog) {
+    option (google.api.http) = { get: "/catalog/v1/catalogs/{catalog_id}" };
+  };
+
+  // UpdateCatalog updates a catalog.
+  rpc UpdateCatalog (UpdateCatalogRequest) returns (oci.marketplace.Operation) {
+    option (google.api.http) = { patch: "/catalog/v1/catalogs/{catalog.catalog_id}" body: "*" };
+    option (oci.marketplace.operation) = {
+      metadata: "UpdateCatalogMetadata"
+      response: "Catalog"
+    };
+  };
+
+  // DeleteCatalog deletes a catalog by its ID.
+  rpc DeleteCatalog (DeleteCatalogRequest) returns (oci.marketplace.Operation) {
+    option (google.api.http) = { delete: "/catalog/v1/catalogs/{catalog_id}" };
+    option (oci.marketplace.operation) = {
+      metadata: "DeleteCatalogMetadata"
+    };
+  };
+
+  // CreateChangeSet creates a new ChangeSet for the specified catalog.
+  rpc CreateChangeSet (CreateChangeSetRequest) returns (oci.marketplace.Operation) {
+    option (google.api.http) = { post: "/catalog/v1/catalogs/{catalog_id}/changeset" body: "*" };
+    option (oci.marketplace.operation) = {
+      metadata: "CreateChangeSetMetadata"
+      response: "ChangeSet"
+    };
   };
 }
 
+// CreateCatalogRequest represents request to create a new catalog.
 message CreateCatalogRequest {
   // Required. The catalog to create.
   Catalog catalog = 1;
 }
 
-// GetCatalogRequest is the request message for the Get method.
+// CreateCatalogMetadata represents metadata returned for 
+// CreateCatalog operation.
+message CreateCatalogMetadata {
+  // Catalog identifier.
+  string catalog_id = 1;
+}
+
+// GetCatalogRequest represents request to get a catalog by its ID.
 message GetCatalogRequest {
-  // Required. The ID of the catalog to retrieve.
-  string id = 1;
+  // Required. The catalog ID.
+  string catalog_id = 1;
+}
+
+// UpdateCatalogRequest represents request to update a catalog.
+message UpdateCatalogRequest {
+  // Required. The catalog to update.
+  Catalog catalog = 1;
+}
+
+// UpdateCatalogMetadata represents metadata returned for
+// UpdateCatalog operation.
+message UpdateCatalogMetadata {
+  // Catalog identifier.
+  string catalog_id = 1;
+}
+
+// DeleteCatalogRequest represents request to delete a catalog.
+message DeleteCatalogRequest {
+  // Catalog. The catalog to delete.
+  Catalog catalog = 1;
+}
+
+// DeleteCatalogMetadata represents metadata returned for
+// DeleteCatalog operation.
+message DeleteCatalogMetadata {
+  // Catalog identifier.
+  string catalog_id = 1;
+}
+
+// CreateChangeSetRequest represents request to create a new ChangeSet.
+message CreateChangeSetRequest {
+  // Required. The ChangeSet to create.
+  ChangeSet changeset = 1;
+}
+
+// CreateChangeSetMetadata represents metadata returned for
+// CreateChangeSet operation.
+message CreateChangeSetMetadata {
+  // Catalog identifier.
+  string catalog_id = 1;
+  // ChangeSet identifier.
+  string changeset_id = 2;
 }

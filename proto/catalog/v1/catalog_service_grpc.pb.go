@@ -8,6 +8,7 @@ package catalog
 
 import (
 	context "context"
+	proto "github.com/open-cloud-initiative/marketplace/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,9 +24,15 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CatalogServiceClient interface {
 	// Creates a new Catalog
-	Create(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
-	// Get a new Catalog
-	Get(ctx context.Context, in *GetCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
+	CreateCatalog(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error)
+	// GetCatalog gets a catalog by its ID.
+	GetCatalog(ctx context.Context, in *GetCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
+	// UpdateCatalog updates a catalog.
+	UpdateCatalog(ctx context.Context, in *UpdateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error)
+	// DeleteCatalog deletes a catalog by its ID.
+	DeleteCatalog(ctx context.Context, in *DeleteCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error)
+	// CreateChangeSet creates a new ChangeSet for the specified catalog.
+	CreateChangeSet(ctx context.Context, in *CreateChangeSetRequest, opts ...grpc.CallOption) (*proto.Operation, error)
 }
 
 type catalogServiceClient struct {
@@ -36,18 +43,45 @@ func NewCatalogServiceClient(cc grpc.ClientConnInterface) CatalogServiceClient {
 	return &catalogServiceClient{cc}
 }
 
-func (c *catalogServiceClient) Create(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error) {
-	out := new(Catalog)
-	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/Create", in, out, opts...)
+func (c *catalogServiceClient) CreateCatalog(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
+	out := new(proto.Operation)
+	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/CreateCatalog", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *catalogServiceClient) Get(ctx context.Context, in *GetCatalogRequest, opts ...grpc.CallOption) (*Catalog, error) {
+func (c *catalogServiceClient) GetCatalog(ctx context.Context, in *GetCatalogRequest, opts ...grpc.CallOption) (*Catalog, error) {
 	out := new(Catalog)
-	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/Get", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/GetCatalog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateCatalog(ctx context.Context, in *UpdateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
+	out := new(proto.Operation)
+	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/UpdateCatalog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteCatalog(ctx context.Context, in *DeleteCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
+	out := new(proto.Operation)
+	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/DeleteCatalog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) CreateChangeSet(ctx context.Context, in *CreateChangeSetRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
+	out := new(proto.Operation)
+	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/CreateChangeSet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -59,20 +93,35 @@ func (c *catalogServiceClient) Get(ctx context.Context, in *GetCatalogRequest, o
 // for forward compatibility
 type CatalogServiceServer interface {
 	// Creates a new Catalog
-	Create(context.Context, *CreateCatalogRequest) (*Catalog, error)
-	// Get a new Catalog
-	Get(context.Context, *GetCatalogRequest) (*Catalog, error)
+	CreateCatalog(context.Context, *CreateCatalogRequest) (*proto.Operation, error)
+	// GetCatalog gets a catalog by its ID.
+	GetCatalog(context.Context, *GetCatalogRequest) (*Catalog, error)
+	// UpdateCatalog updates a catalog.
+	UpdateCatalog(context.Context, *UpdateCatalogRequest) (*proto.Operation, error)
+	// DeleteCatalog deletes a catalog by its ID.
+	DeleteCatalog(context.Context, *DeleteCatalogRequest) (*proto.Operation, error)
+	// CreateChangeSet creates a new ChangeSet for the specified catalog.
+	CreateChangeSet(context.Context, *CreateChangeSetRequest) (*proto.Operation, error)
 }
 
 // UnimplementedCatalogServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedCatalogServiceServer struct {
 }
 
-func (UnimplementedCatalogServiceServer) Create(context.Context, *CreateCatalogRequest) (*Catalog, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedCatalogServiceServer) CreateCatalog(context.Context, *CreateCatalogRequest) (*proto.Operation, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCatalog not implemented")
 }
-func (UnimplementedCatalogServiceServer) Get(context.Context, *GetCatalogRequest) (*Catalog, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedCatalogServiceServer) GetCatalog(context.Context, *GetCatalogRequest) (*Catalog, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCatalog not implemented")
+}
+func (UnimplementedCatalogServiceServer) UpdateCatalog(context.Context, *UpdateCatalogRequest) (*proto.Operation, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCatalog not implemented")
+}
+func (UnimplementedCatalogServiceServer) DeleteCatalog(context.Context, *DeleteCatalogRequest) (*proto.Operation, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCatalog not implemented")
+}
+func (UnimplementedCatalogServiceServer) CreateChangeSet(context.Context, *CreateChangeSetRequest) (*proto.Operation, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateChangeSet not implemented")
 }
 
 // UnsafeCatalogServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -86,38 +135,92 @@ func RegisterCatalogServiceServer(s grpc.ServiceRegistrar, srv CatalogServiceSer
 	s.RegisterService(&CatalogService_ServiceDesc, srv)
 }
 
-func _CatalogService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CatalogService_CreateCatalog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateCatalogRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CatalogServiceServer).Create(ctx, in)
+		return srv.(CatalogServiceServer).CreateCatalog(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/Create",
+		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/CreateCatalog",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).Create(ctx, req.(*CreateCatalogRequest))
+		return srv.(CatalogServiceServer).CreateCatalog(ctx, req.(*CreateCatalogRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CatalogService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CatalogService_GetCatalog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetCatalogRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CatalogServiceServer).Get(ctx, in)
+		return srv.(CatalogServiceServer).GetCatalog(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/Get",
+		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/GetCatalog",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).Get(ctx, req.(*GetCatalogRequest))
+		return srv.(CatalogServiceServer).GetCatalog(ctx, req.(*GetCatalogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateCatalog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCatalogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateCatalog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/UpdateCatalog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateCatalog(ctx, req.(*UpdateCatalogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteCatalog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCatalogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteCatalog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/DeleteCatalog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteCatalog(ctx, req.(*DeleteCatalogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_CreateChangeSet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateChangeSetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateChangeSet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/CreateChangeSet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateChangeSet(ctx, req.(*CreateChangeSetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -130,12 +233,24 @@ var CatalogService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CatalogServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Create",
-			Handler:    _CatalogService_Create_Handler,
+			MethodName: "CreateCatalog",
+			Handler:    _CatalogService_CreateCatalog_Handler,
 		},
 		{
-			MethodName: "Get",
-			Handler:    _CatalogService_Get_Handler,
+			MethodName: "GetCatalog",
+			Handler:    _CatalogService_GetCatalog_Handler,
+		},
+		{
+			MethodName: "UpdateCatalog",
+			Handler:    _CatalogService_UpdateCatalog_Handler,
+		},
+		{
+			MethodName: "DeleteCatalog",
+			Handler:    _CatalogService_DeleteCatalog_Handler,
+		},
+		{
+			MethodName: "CreateChangeSet",
+			Handler:    _CatalogService_CreateChangeSet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

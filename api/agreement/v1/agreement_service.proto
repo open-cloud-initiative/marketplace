@@ -5,8 +5,22 @@ package oci.marketplace.agreement.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 
-option go_package = "github.com/open-cloud-initiative/marketplace/proto/agreement/v1;reporting";
+import "agreement/v1/agreement.proto";
+
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/agreement/v1;agreement";
 
 // A set of methods to control the agreement catalog.
 service AgreementService {
+  // GetAgreement retrieves an agreement by its ID.
+  rpc GetAgreement(GetAgreementRequest) returns (Agreement) {
+    option (google.api.http) = {
+      get: "/v1/agreements/{agreement_id}"
+    };
+  }
+}
+
+// GetAgreementRequest is the request message for GetAgreement.
+message GetAgreementRequest {
+  // ID of the agreement to retrieve.
+  string id = 1;
 }

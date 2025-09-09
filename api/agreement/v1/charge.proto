@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package oci.marketplace.agreement.v1;
+
+import "google/protobuf/timestamp.proto";
+import "validation.proto";
+
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/agreement/v1;agreement";
+
+// Represents a charge.
+message Charge { 
+  // Amount of the charge in cents.
+  fixed64 amount_cents = 1;
+
+  // Currency of the charge.
+  string currency = 2;
+
+  // Description of the charge.
+  string description = 3;
+}

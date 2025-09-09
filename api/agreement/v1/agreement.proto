@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package oci.marketplace.agreement.v1;
+
+import "google/protobuf/timestamp.proto";
+import "validation.proto";
+
+import "agreement/v1/charge.proto";
+
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/agreement/v1;agreement";
+
+// AgreementStatus represents the status of an agreement.
+enum AgreementStatus {
+  // AgreementStatusUnspecified is the default value.
+  AGREEMENT_STATUS_UNSPECIFIED = 0;
+  // Agreement is pending.
+  AGREEMENT_STATUS_PENDING = 1;
+  // Agreement is active. 
+  AGREEMENT_STATUS_ACTIVE = 2;
+  // Agreement is cancelled.
+  AGREEMENT_STATUS_CANCELLED = 3;
+  // Agreement is expired.
+  AGREEMENT_STATUS_EXPIRED = 4;
+  // Agreement is terminated.
+  AGREEMENT_STATUS_TERMINATED = 5;
+  // Agreement is replaced.
+  AGREEMENT_STATUS_REPLACED = 6;
+}
+
+// Represents an Agreement.
+message Agreement {
+  // ID of the agreement. Generated at creation time.
+  // This is a UUIDv7.
+  string id = 1;
+
+  // Acceptor of the agreement.
+  string acceptor = 2;
+
+  // Agreement Type.
+  string agreement_type = 3;
+
+  // End timestamp.
+  google.protobuf.Timestamp end_at = 4;
+
+  // Estimated charges.
+  Charge estimated_charges = 5;
+
+  // Proposer of the agreement.
+  string proposer = 6;
+
+  // Acceptance timestamp.
+  google.protobuf.Timestamp accepted_at = 7;
+
+  // Start timestamp.
+  google.protobuf.Timestamp start_at = 8;
+
+  // Status of the agreement.
+  AgreementStatus status = 9;
+
+  // Offer ID associated with this agreement.
+  string offer_id = 10;
+
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 11;
+
+  // Update timestamp.
+  google.protobuf.Timestamp updated_at = 12;
+
+  // Deleted at timestamp.
+  google.protobuf.Timestamp deleted_at = 13;
+}

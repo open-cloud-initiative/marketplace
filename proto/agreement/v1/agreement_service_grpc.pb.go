@@ -4,10 +4,13 @@
 // - protoc             (unknown)
 // source: agreement/v1/agreement_service.proto
 
-package reporting
+package agreement
 
 import (
+	context "context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,6 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AgreementServiceClient interface {
+	// GetAgreement retrieves an agreement by its ID.
+	GetAgreement(ctx context.Context, in *GetAgreementRequest, opts ...grpc.CallOption) (*Agreement, error)
 }
 
 type agreementServiceClient struct {
@@ -29,14 +34,29 @@ func NewAgreementServiceClient(cc grpc.ClientConnInterface) AgreementServiceClie
 	return &agreementServiceClient{cc}
 }
 
+func (c *agreementServiceClient) GetAgreement(ctx context.Context, in *GetAgreementRequest, opts ...grpc.CallOption) (*Agreement, error) {
+	out := new(Agreement)
+	err := c.cc.Invoke(ctx, "/oci.marketplace.agreement.v1.AgreementService/GetAgreement", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AgreementServiceServer is the server API for AgreementService service.
 // All implementations should embed UnimplementedAgreementServiceServer
 // for forward compatibility
 type AgreementServiceServer interface {
+	// GetAgreement retrieves an agreement by its ID.
+	GetAgreement(context.Context, *GetAgreementRequest) (*Agreement, error)
 }
 
 // UnimplementedAgreementServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedAgreementServiceServer struct {
+}
+
+func (UnimplementedAgreementServiceServer) GetAgreement(context.Context, *GetAgreementRequest) (*Agreement, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAgreement not implemented")
 }
 
 // UnsafeAgreementServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -50,13 +70,36 @@ func RegisterAgreementServiceServer(s grpc.ServiceRegistrar, srv AgreementServic
 	s.RegisterService(&AgreementService_ServiceDesc, srv)
 }
 
+func _AgreementService_GetAgreement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAgreementRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgreementServiceServer).GetAgreement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/oci.marketplace.agreement.v1.AgreementService/GetAgreement",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgreementServiceServer).GetAgreement(ctx, req.(*GetAgreementRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AgreementService_ServiceDesc is the grpc.ServiceDesc for AgreementService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AgreementService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "oci.marketplace.agreement.v1.AgreementService",
 	HandlerType: (*AgreementServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "agreement/v1/agreement_service.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetAgreement",
+			Handler:    _AgreementService_GetAgreement_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "agreement/v1/agreement_service.proto",
 }
