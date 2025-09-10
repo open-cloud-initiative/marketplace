@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package oci.marketplace.catalog.plans.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+import "catalog/v1/catalog.proto";
+import "operation.proto";
+import "validation.proto";
+
+import "catalog/plans/v1/plan.proto";
+
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/plans/v1;plans";
+
+// A set of methods to control the plans in the marketplace.
+service PlansService {
+  // Creates a new Plan
+  rpc CreatePlan (CreatePlanRequest) returns (Plan) {
+    option (google.api.http) = { post: "/catalog/v1/catalogs/{catalog_id}/plans" body: "*" };
+  };
+
+  // GetPlan gets a plan by its ID.
+  rpc GetPlan (GetPlanRequest) returns (Plan) {
+    option (google.api.http) = { get: "/catalog/v1/catalogs/{catalog_id}/plans/{plan_id}" };
+  };
+
+  // UpdatePlan updates a plan.
+  rpc UpdatePlan (UpdatePlanRequest) returns (Plan) {
+    option (google.api.http) = { patch: "/catalog/v1/catalogs/{catalog_id}/plans/{plan_id}" body: "*" };
+  };
+
+  // DeletePlan deletes a plan by its ID.
+  rpc DeletePlan (DeletePlanRequest) returns (Plan) {
+    option (google.api.http) = { delete: "/catalog/v1/catalogs/{catalog_id}/plans/{plan_id}" };
+  };
+}
+
+// Request to create a new plan.
+message CreatePlanRequest {
+  // The ID of the catalog.
+  string catalog_id = 1;
+
+  // The plan to create.
+  Plan plan = 2;
+}
+
+// Request to get a plan by its ID.
+message GetPlanRequest {
+  // The ID of the catalog.
+  string catalog_id = 1;
+
+  // The ID of the plan.
+  string plan_id = 2;
+}
+
+// Request to update a plan.
+message UpdatePlanRequest {
+  // The ID of the catalog.
+  string catalog_id = 1;
+  // The ID of the plan.
+  string plan_id = 2;
+}
+
+// Request to delete a plan.
+message DeletePlanRequest {
+  // The ID of the catalog.
+  string catalog_id = 1;
+
+  // The ID of the plan.
+  string plan_id = 2;
+}

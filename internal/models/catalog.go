@@ -48,7 +48,6 @@ func (c *Catalog) FromProto(pb *pb.Catalog) error {
 		return err
 	}
 	c.ID = uuid
-
 	c.Name = pb.GetName()
 
 	return nil

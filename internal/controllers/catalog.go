@@ -88,3 +88,5 @@ func (c *CatalogController) Delete(ctx context.Context, req *pb.DeleteCatalogReq
 		Catalog: catalog.ToProto(),
 	}, nil
 }
+
+// Update

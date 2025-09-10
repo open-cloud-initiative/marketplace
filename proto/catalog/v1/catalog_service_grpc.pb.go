@@ -30,8 +30,6 @@ type CatalogServiceClient interface {
 	UpdateCatalog(ctx context.Context, in *UpdateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
 	// DeleteCatalog deletes a catalog by its ID.
 	DeleteCatalog(ctx context.Context, in *DeleteCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
-	// CreateChangeSet creates a new ChangeSet for the specified catalog.
-	CreateChangeSet(ctx context.Context, in *CreateChangeSetRequest, opts ...grpc.CallOption) (*ChangeSet, error)
 }
 
 type catalogServiceClient struct {
@@ -78,15 +76,6 @@ func (c *catalogServiceClient) DeleteCatalog(ctx context.Context, in *DeleteCata
 	return out, nil
 }
 
-func (c *catalogServiceClient) CreateChangeSet(ctx context.Context, in *CreateChangeSetRequest, opts ...grpc.CallOption) (*ChangeSet, error) {
-	out := new(ChangeSet)
-	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/CreateChangeSet", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // CatalogServiceServer is the server API for CatalogService service.
 // All implementations should embed UnimplementedCatalogServiceServer
 // for forward compatibility
@@ -99,8 +88,6 @@ type CatalogServiceServer interface {
 	UpdateCatalog(context.Context, *UpdateCatalogRequest) (*Catalog, error)
 	// DeleteCatalog deletes a catalog by its ID.
 	DeleteCatalog(context.Context, *DeleteCatalogRequest) (*Catalog, error)
-	// CreateChangeSet creates a new ChangeSet for the specified catalog.
-	CreateChangeSet(context.Context, *CreateChangeSetRequest) (*ChangeSet, error)
 }
 
 // UnimplementedCatalogServiceServer should be embedded to have forward compatible implementations.
@@ -118,9 +105,6 @@ func (UnimplementedCatalogServiceServer) UpdateCatalog(context.Context, *UpdateC
 }
 func (UnimplementedCatalogServiceServer) DeleteCatalog(context.Context, *DeleteCatalogRequest) (*Catalog, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCatalog not implemented")
-}
-func (UnimplementedCatalogServiceServer) CreateChangeSet(context.Context, *CreateChangeSetRequest) (*ChangeSet, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateChangeSet not implemented")
 }
 
 // UnsafeCatalogServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -206,24 +190,6 @@ func _CatalogService_DeleteCatalog_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CatalogService_CreateChangeSet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateChangeSetRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CatalogServiceServer).CreateChangeSet(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/oci.marketplace.catalog.v1.CatalogService/CreateChangeSet",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CatalogServiceServer).CreateChangeSet(ctx, req.(*CreateChangeSetRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // CatalogService_ServiceDesc is the grpc.ServiceDesc for CatalogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -246,10 +212,6 @@ var CatalogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCatalog",
 			Handler:    _CatalogService_DeleteCatalog_Handler,
-		},
-		{
-			MethodName: "CreateChangeSet",
-			Handler:    _CatalogService_CreateChangeSet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

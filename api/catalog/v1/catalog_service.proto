@@ -6,7 +6,6 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 
 import "catalog/v1/catalog.proto";
-import "catalog/v1/changeset.proto";
 import "operation.proto";
 import "validation.proto";
 
@@ -33,11 +32,6 @@ service CatalogService {
   rpc DeleteCatalog (DeleteCatalogRequest) returns (Catalog) {
     option (google.api.http) = { delete: "/catalog/v1/catalogs/{catalog_id}" };
   };
-
-  // CreateChangeSet creates a new ChangeSet for the specified catalog.
-  rpc CreateChangeSet (CreateChangeSetRequest) returns (ChangeSet) {
-    option (google.api.http) = { post: "/catalog/v1/catalogs/{catalog_id}/changeset" body: "*" };
-  };
 }
 
 // CreateCatalogRequest represents request to create a new catalog.
@@ -62,10 +56,4 @@ message UpdateCatalogRequest {
 message DeleteCatalogRequest {
   // Catalog. The catalog to delete.
   Catalog catalog = 1;
-}
-
-// CreateChangeSetRequest represents request to create a new ChangeSet.
-message CreateChangeSetRequest {
-  // Required. The ChangeSet to create.
-  ChangeSet changeset = 1;
 }

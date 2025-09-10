@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package oci.marketplace.catalog.plans.v1;
+
+import "google/protobuf/timestamp.proto";
+import "validation.proto";
+
+option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/plans/v1;plans";
+
+// Represents a plan.
+message Plan {
+  // ID of the DNS zone. Generated at creation time.
+  // This is a UUIDv7.
+  string id = 1;
+
+  // Name of the DNS zone. 
+  // The name is unique within the folder.
+  string name = 4;
+
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 3;
+
+  // Update timestamp.
+  google.protobuf.Timestamp updated_at = 5;
+
+  // Deleted at timestamp.
+  google.protobuf.Timestamp deleted_at = 6;
+}
