@@ -6,22 +6,17 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 
 import "catalog/v1/catalog.proto";
+import "catalog/v1/changeset.proto";
 import "operation.proto";
 import "validation.proto";
-
-import "catalog/v1/changeset.proto";
 
 option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/v1;catalog";
 
 // A set of methods to control the marketplace catalog.
 service CatalogService {
   // Creates a new Catalog
-  rpc CreateCatalog (CreateCatalogRequest) returns (oci.marketplace.Operation) {
+  rpc CreateCatalog (CreateCatalogRequest) returns (Catalog) {
     option (google.api.http) = { post: "/catalog/v1/catalogs" body: "*" };
-    option (oci.marketplace.operation) = {
-      metadata: "CreateCatalogMetadata"
-      response: "Catalog"
-    };
   };
 
   // GetCatalog gets a catalog by its ID.
@@ -30,29 +25,18 @@ service CatalogService {
   };
 
   // UpdateCatalog updates a catalog.
-  rpc UpdateCatalog (UpdateCatalogRequest) returns (oci.marketplace.Operation) {
+  rpc UpdateCatalog (UpdateCatalogRequest) returns (Catalog) {
     option (google.api.http) = { patch: "/catalog/v1/catalogs/{catalog.catalog_id}" body: "*" };
-    option (oci.marketplace.operation) = {
-      metadata: "UpdateCatalogMetadata"
-      response: "Catalog"
-    };
   };
 
   // DeleteCatalog deletes a catalog by its ID.
-  rpc DeleteCatalog (DeleteCatalogRequest) returns (oci.marketplace.Operation) {
+  rpc DeleteCatalog (DeleteCatalogRequest) returns (Catalog) {
     option (google.api.http) = { delete: "/catalog/v1/catalogs/{catalog_id}" };
-    option (oci.marketplace.operation) = {
-      metadata: "DeleteCatalogMetadata"
-    };
   };
 
   // CreateChangeSet creates a new ChangeSet for the specified catalog.
-  rpc CreateChangeSet (CreateChangeSetRequest) returns (oci.marketplace.Operation) {
+  rpc CreateChangeSet (CreateChangeSetRequest) returns (ChangeSet) {
     option (google.api.http) = { post: "/catalog/v1/catalogs/{catalog_id}/changeset" body: "*" };
-    option (oci.marketplace.operation) = {
-      metadata: "CreateChangeSetMetadata"
-      response: "ChangeSet"
-    };
   };
 }
 
@@ -60,13 +44,6 @@ service CatalogService {
 message CreateCatalogRequest {
   // Required. The catalog to create.
   Catalog catalog = 1;
-}
-
-// CreateCatalogMetadata represents metadata returned for 
-// CreateCatalog operation.
-message CreateCatalogMetadata {
-  // Catalog identifier.
-  string catalog_id = 1;
 }
 
 // GetCatalogRequest represents request to get a catalog by its ID.
@@ -81,37 +58,14 @@ message UpdateCatalogRequest {
   Catalog catalog = 1;
 }
 
-// UpdateCatalogMetadata represents metadata returned for
-// UpdateCatalog operation.
-message UpdateCatalogMetadata {
-  // Catalog identifier.
-  string catalog_id = 1;
-}
-
 // DeleteCatalogRequest represents request to delete a catalog.
 message DeleteCatalogRequest {
   // Catalog. The catalog to delete.
   Catalog catalog = 1;
 }
 
-// DeleteCatalogMetadata represents metadata returned for
-// DeleteCatalog operation.
-message DeleteCatalogMetadata {
-  // Catalog identifier.
-  string catalog_id = 1;
-}
-
 // CreateChangeSetRequest represents request to create a new ChangeSet.
 message CreateChangeSetRequest {
   // Required. The ChangeSet to create.
   ChangeSet changeset = 1;
-}
-
-// CreateChangeSetMetadata represents metadata returned for
-// CreateChangeSet operation.
-message CreateChangeSetMetadata {
-  // Catalog identifier.
-  string catalog_id = 1;
-  // ChangeSet identifier.
-  string changeset_id = 2;
 }

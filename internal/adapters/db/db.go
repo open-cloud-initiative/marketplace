@@ -36,9 +36,9 @@ func NewWriteTx() dbx.ReadWriteTxFactory[ports.ReadWriteTx] {
 }
 
 // CreateCatalog ...
-func (r *writeTxImpl) CreateCatalog(ctx context.Context, design *models.Catalog) error {
+func (r *writeTxImpl) CreateCatalog(ctx context.Context, catalog *models.Catalog) error {
 	return r.conn.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		return tx.Create(design).Error
+		return tx.Create(catalog).Error
 	})
 }
 
@@ -46,5 +46,24 @@ func (r *writeTxImpl) CreateCatalog(ctx context.Context, design *models.Catalog)
 func (r *readTxImpl) GetCatalog(ctx context.Context, catalog *models.Catalog) error {
 	return r.conn.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		return tx.First(catalog, catalog.ID).Error
+	})
+}
+
+// UpdateCatalog ...
+func (r *writeTxImpl) UpdateCatalog(ctx context.Context, catalog *models.Catalog) error {
+	return r.conn.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		err := tx.First(catalog, catalog.ID)
+		if err.Error != nil {
+			return err.Error
+		}
+
+		return tx.Save(catalog).Error
+	})
+}
+
+// DeleteCatalog ...
+func (r *writeTxImpl) DeleteCatalog(ctx context.Context, catalog *models.Catalog) error {
+	return r.conn.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		return tx.Delete(catalog).Error
 	})
 }

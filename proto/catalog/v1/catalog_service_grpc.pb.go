@@ -8,7 +8,6 @@ package catalog
 
 import (
 	context "context"
-	proto "github.com/open-cloud-initiative/marketplace/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -24,15 +23,15 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CatalogServiceClient interface {
 	// Creates a new Catalog
-	CreateCatalog(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error)
+	CreateCatalog(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
 	// GetCatalog gets a catalog by its ID.
 	GetCatalog(ctx context.Context, in *GetCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
 	// UpdateCatalog updates a catalog.
-	UpdateCatalog(ctx context.Context, in *UpdateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error)
+	UpdateCatalog(ctx context.Context, in *UpdateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
 	// DeleteCatalog deletes a catalog by its ID.
-	DeleteCatalog(ctx context.Context, in *DeleteCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error)
+	DeleteCatalog(ctx context.Context, in *DeleteCatalogRequest, opts ...grpc.CallOption) (*Catalog, error)
 	// CreateChangeSet creates a new ChangeSet for the specified catalog.
-	CreateChangeSet(ctx context.Context, in *CreateChangeSetRequest, opts ...grpc.CallOption) (*proto.Operation, error)
+	CreateChangeSet(ctx context.Context, in *CreateChangeSetRequest, opts ...grpc.CallOption) (*ChangeSet, error)
 }
 
 type catalogServiceClient struct {
@@ -43,8 +42,8 @@ func NewCatalogServiceClient(cc grpc.ClientConnInterface) CatalogServiceClient {
 	return &catalogServiceClient{cc}
 }
 
-func (c *catalogServiceClient) CreateCatalog(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
-	out := new(proto.Operation)
+func (c *catalogServiceClient) CreateCatalog(ctx context.Context, in *CreateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error) {
+	out := new(Catalog)
 	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/CreateCatalog", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -61,8 +60,8 @@ func (c *catalogServiceClient) GetCatalog(ctx context.Context, in *GetCatalogReq
 	return out, nil
 }
 
-func (c *catalogServiceClient) UpdateCatalog(ctx context.Context, in *UpdateCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
-	out := new(proto.Operation)
+func (c *catalogServiceClient) UpdateCatalog(ctx context.Context, in *UpdateCatalogRequest, opts ...grpc.CallOption) (*Catalog, error) {
+	out := new(Catalog)
 	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/UpdateCatalog", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -70,8 +69,8 @@ func (c *catalogServiceClient) UpdateCatalog(ctx context.Context, in *UpdateCata
 	return out, nil
 }
 
-func (c *catalogServiceClient) DeleteCatalog(ctx context.Context, in *DeleteCatalogRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
-	out := new(proto.Operation)
+func (c *catalogServiceClient) DeleteCatalog(ctx context.Context, in *DeleteCatalogRequest, opts ...grpc.CallOption) (*Catalog, error) {
+	out := new(Catalog)
 	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/DeleteCatalog", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -79,8 +78,8 @@ func (c *catalogServiceClient) DeleteCatalog(ctx context.Context, in *DeleteCata
 	return out, nil
 }
 
-func (c *catalogServiceClient) CreateChangeSet(ctx context.Context, in *CreateChangeSetRequest, opts ...grpc.CallOption) (*proto.Operation, error) {
-	out := new(proto.Operation)
+func (c *catalogServiceClient) CreateChangeSet(ctx context.Context, in *CreateChangeSetRequest, opts ...grpc.CallOption) (*ChangeSet, error) {
+	out := new(ChangeSet)
 	err := c.cc.Invoke(ctx, "/oci.marketplace.catalog.v1.CatalogService/CreateChangeSet", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -93,34 +92,34 @@ func (c *catalogServiceClient) CreateChangeSet(ctx context.Context, in *CreateCh
 // for forward compatibility
 type CatalogServiceServer interface {
 	// Creates a new Catalog
-	CreateCatalog(context.Context, *CreateCatalogRequest) (*proto.Operation, error)
+	CreateCatalog(context.Context, *CreateCatalogRequest) (*Catalog, error)
 	// GetCatalog gets a catalog by its ID.
 	GetCatalog(context.Context, *GetCatalogRequest) (*Catalog, error)
 	// UpdateCatalog updates a catalog.
-	UpdateCatalog(context.Context, *UpdateCatalogRequest) (*proto.Operation, error)
+	UpdateCatalog(context.Context, *UpdateCatalogRequest) (*Catalog, error)
 	// DeleteCatalog deletes a catalog by its ID.
-	DeleteCatalog(context.Context, *DeleteCatalogRequest) (*proto.Operation, error)
+	DeleteCatalog(context.Context, *DeleteCatalogRequest) (*Catalog, error)
 	// CreateChangeSet creates a new ChangeSet for the specified catalog.
-	CreateChangeSet(context.Context, *CreateChangeSetRequest) (*proto.Operation, error)
+	CreateChangeSet(context.Context, *CreateChangeSetRequest) (*ChangeSet, error)
 }
 
 // UnimplementedCatalogServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedCatalogServiceServer struct {
 }
 
-func (UnimplementedCatalogServiceServer) CreateCatalog(context.Context, *CreateCatalogRequest) (*proto.Operation, error) {
+func (UnimplementedCatalogServiceServer) CreateCatalog(context.Context, *CreateCatalogRequest) (*Catalog, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCatalog not implemented")
 }
 func (UnimplementedCatalogServiceServer) GetCatalog(context.Context, *GetCatalogRequest) (*Catalog, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCatalog not implemented")
 }
-func (UnimplementedCatalogServiceServer) UpdateCatalog(context.Context, *UpdateCatalogRequest) (*proto.Operation, error) {
+func (UnimplementedCatalogServiceServer) UpdateCatalog(context.Context, *UpdateCatalogRequest) (*Catalog, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCatalog not implemented")
 }
-func (UnimplementedCatalogServiceServer) DeleteCatalog(context.Context, *DeleteCatalogRequest) (*proto.Operation, error) {
+func (UnimplementedCatalogServiceServer) DeleteCatalog(context.Context, *DeleteCatalogRequest) (*Catalog, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCatalog not implemented")
 }
-func (UnimplementedCatalogServiceServer) CreateChangeSet(context.Context, *CreateChangeSetRequest) (*proto.Operation, error) {
+func (UnimplementedCatalogServiceServer) CreateChangeSet(context.Context, *CreateChangeSetRequest) (*ChangeSet, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateChangeSet not implemented")
 }
 

@@ -3,7 +3,12 @@ package models
 import (
 	"time"
 
+	pb "github.com/open-cloud-initiative/marketplace/proto/catalog/v1"
+	"google.golang.org/protobuf/types/known/timestamppb"
+
 	"github.com/google/uuid"
+	"github.com/katallaxie/pkg/conv"
+	"github.com/katallaxie/pkg/protox"
 	"gorm.io/gorm"
 )
 
@@ -21,4 +26,30 @@ type Catalog struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 	// DeletedAt ...
 	DeletedAt gorm.DeletedAt `json:"deletedAt"`
+
+	protox.ProtoX[pb.Catalog] `gorm:"-"`
+}
+
+// ToProto converts the Catalog to its protobuf representation.
+func (c *Catalog) ToProto() *pb.Catalog {
+	return &pb.Catalog{
+		Id:        conv.String(c.ID),
+		Name:      c.Name,
+		CreatedAt: timestamppb.New(c.CreatedAt),
+		UpdatedAt: timestamppb.New(c.UpdatedAt),
+		DeletedAt: timestamppb.New(c.DeletedAt.Time),
+	}
+}
+
+// FromProto populates the Catalog from its protobuf representation.
+func (c *Catalog) FromProto(pb *pb.Catalog) error {
+	uuid, err := uuid.Parse(pb.GetId())
+	if err != nil {
+		return err
+	}
+	c.ID = uuid
+
+	c.Name = pb.GetName()
+
+	return nil
 }
