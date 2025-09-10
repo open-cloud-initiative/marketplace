@@ -9,7 +9,8 @@ import (
 	config "github.com/open-cloud-initiative/marketplace/cmd/server/cfg"
 	"github.com/open-cloud-initiative/marketplace/internal/adapters/db"
 	"github.com/open-cloud-initiative/marketplace/internal/controllers"
-	pb "github.com/open-cloud-initiative/marketplace/proto/catalog/v1"
+	catalogv1 "github.com/open-cloud-initiative/marketplace/proto/catalog/v1"
+	plansv1 "github.com/open-cloud-initiative/marketplace/proto/catalog/plans/v1"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
@@ -86,8 +87,10 @@ func runRoot(ctx context.Context, _ ...string) error {
 	srv := grpc.NewServer(opts...)
 
 	catalog := controllers.NewCatalogController(store)
+	plans := controllers.NewPlansController(store)
 
-	pb.RegisterCatalogServiceServer(srv, catalog)
+	catalogv1.RegisterCatalogServiceServer(srv, catalog)
+	plansv1.RegisterPlansServiceServer(srv, plans)
 	reflection.Register(srv)
 
 	if err := srv.Serve(lis); err != nil {
