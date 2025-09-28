@@ -1,0 +1,11 @@
+apiVersion: v2
+appVersion: 0.1.0
+description: A helm chart for the Marketplace service
+name: marketplace
+keywords:
+  - oci
+  - marketplace
+version: 0.1.0
+sources:
+  - https://github.com/open-cloud-initiative/marketplace
+home: http://github.com/open-cloud-initiative/marketplace
