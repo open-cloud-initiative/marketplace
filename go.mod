@@ -6,6 +6,7 @@ tool (
 	github.com/air-verse/air
 	github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 	github.com/vektra/mockery/v2
+	github.com/goreleaser/goreleaser/v2
 	gotest.tools/gotestsum
 	mvdan.cc/gofumpt
 )
