@@ -5,20 +5,20 @@ import "github.com/google/uuid"
 // OwnableType ...
 type OwnableType string
 
-// OwnableTypeTemplate is the template ownable type
+// OwnableTypeTemplate is the template ownable type.
 var OwnableTypeTemplate OwnableType = "template"
 
 // OwnerType ...
 type OwnerType string
 
 var (
-	// OwnerTypeUser is the user owner type
+	// OwnerTypeUser is the user owner type.
 	OwnerTypeUser OwnerType = "user"
-	// OwnerTypeTeam is the team owner type
+	// OwnerTypeTeam is the team owner type.
 	OwnerTypeTeam OwnerType = "team"
 )
 
-// Ownable is the interface for the ownable
+// Ownable is the interface for the ownable.
 type Ownable struct {
 	// ID is the primary key of the workable
 	ID int `json:"id" gorm:"primary_key;type:bigint;auto_increment;not null"`

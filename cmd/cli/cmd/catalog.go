@@ -16,7 +16,7 @@ var CatalogCmd = &cobra.Command{
 var CreateCatalogCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new catalog",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(_ *cobra.Command, _ []string) error {
 		// Implementation for creating a new catalog
 		return nil
 	},

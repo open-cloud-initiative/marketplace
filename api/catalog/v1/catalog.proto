@@ -13,16 +13,18 @@ message Catalog {
   // This is a UUIDv7.
   string id = 1;
 
-  // Name of the DNS zone. 
-  // The name is unique within the folder.
-  string name = 4;
+  // Name of the catalog.
+  string name = 2;
+
+  // Description of the catalog.
+  string description = 3;
 
   // Creation timestamp.
-  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp created_at = 10;
 
   // Update timestamp.
-  google.protobuf.Timestamp updated_at = 5;
+  google.protobuf.Timestamp updated_at = 11;
 
   // Deleted at timestamp.
-  google.protobuf.Timestamp deleted_at = 6;
+  google.protobuf.Timestamp deleted_at = 12;
 }

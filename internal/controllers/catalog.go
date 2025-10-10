@@ -26,7 +26,7 @@ func NewCatalogController(store dbx.Database[ports.ReadTx, ports.ReadWriteTx]) *
 	}
 }
 
-// Create implements pb.CatalogServiceServer
+// Create implements pb.CatalogServiceServer.
 func (c *CatalogController) Create(ctx context.Context, req *pb.CreateCatalogRequest) (*pb.Catalog, error) {
 	catalog := &models.Catalog{
 		Name: req.Catalog.Name,
@@ -44,7 +44,7 @@ func (c *CatalogController) Create(ctx context.Context, req *pb.CreateCatalogReq
 	}, nil
 }
 
-// Get implements pb.CatalogServiceServer
+// Get implements pb.CatalogServiceServer.
 func (c *CatalogController) Get(ctx context.Context, req *pb.GetCatalogRequest) (*pb.Catalog, error) {
 	id, err := uuid.Parse(req.GetCatalogId())
 	if err != nil {
@@ -67,7 +67,7 @@ func (c *CatalogController) Get(ctx context.Context, req *pb.GetCatalogRequest) 
 	}, nil
 }
 
-// Delete implements pb.CatalogServiceServer
+// Delete implements pb.CatalogServiceServer.
 func (c *CatalogController) Delete(ctx context.Context, req *pb.DeleteCatalogRequest) (*pb.DeleteCatalogRequest, error) {
 	id, err := uuid.Parse(req.GetCatalog().GetId())
 	if err != nil {
@@ -89,4 +89,19 @@ func (c *CatalogController) Delete(ctx context.Context, req *pb.DeleteCatalogReq
 	}, nil
 }
 
-// Update
+// Update implements pb.CatalogServiceServer.
+func (c *CatalogController) Update(ctx context.Context, req *pb.UpdateCatalogRequest) (*pb.Catalog, error) {
+	catalog := &models.Catalog{}
+
+	if err := catalog.FromProto(req.GetCatalog()); err != nil {
+		return nil, err
+	}
+
+	if err := c.store.ReadWriteTx(ctx, func(ctx context.Context, rw ports.ReadWriteTx) error {
+		return rw.UpdateCatalog(ctx, catalog)
+	}); err != nil {
+		return nil, err
+	}
+
+	return catalog.ToProto(), nil
+}

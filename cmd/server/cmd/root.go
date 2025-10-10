@@ -9,8 +9,8 @@ import (
 	config "github.com/open-cloud-initiative/marketplace/cmd/server/cfg"
 	"github.com/open-cloud-initiative/marketplace/internal/adapters/db"
 	"github.com/open-cloud-initiative/marketplace/internal/controllers"
-	catalogv1 "github.com/open-cloud-initiative/marketplace/proto/catalog/v1"
 	plansv1 "github.com/open-cloud-initiative/marketplace/proto/catalog/plans/v1"
+	catalogv1 "github.com/open-cloud-initiative/marketplace/proto/catalog/v1"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 

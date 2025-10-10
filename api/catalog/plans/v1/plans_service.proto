@@ -5,11 +5,9 @@ package oci.marketplace.catalog.plans.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 
-import "catalog/v1/catalog.proto";
+import "catalog/plans/v1/plan.proto";
 import "operation.proto";
 import "validation.proto";
-
-import "catalog/plans/v1/plan.proto";
 
 option go_package = "github.com/open-cloud-initiative/marketplace/proto/catalog/plans/v1;plans";
 
@@ -38,35 +36,23 @@ service PlansService {
 
 // Request to create a new plan.
 message CreatePlanRequest {
-  // The ID of the catalog.
-  string catalog_id = 1;
-
   // The plan to create.
-  Plan plan = 2;
+  Plan plan = 1;
 }
 
 // Request to get a plan by its ID.
 message GetPlanRequest {
-  // The ID of the catalog.
-  string catalog_id = 1;
-
-  // The ID of the plan.
-  string plan_id = 2;
+  // The plan to get.
+  Plan plan = 1;
 }
 
 // Request to update a plan.
 message UpdatePlanRequest {
-  // The ID of the catalog.
-  string catalog_id = 1;
-  // The ID of the plan.
-  string plan_id = 2;
+  // Plan to update.
+  Plan plan = 1;
 }
 
 // Request to delete a plan.
 message DeletePlanRequest {
-  // The ID of the catalog.
-  string catalog_id = 1;
-
-  // The ID of the plan.
-  string plan_id = 2;
+  Plan plan = 1;
 }
