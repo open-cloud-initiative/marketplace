@@ -1,19 +1,19 @@
 module github.com/open-cloud-initiative/marketplace
 
-go 1.24.0
+go 1.25.0
 
 tool (
 	github.com/air-verse/air
 	github.com/golangci/golangci-lint/v2/cmd/golangci-lint
-	github.com/vektra/mockery/v2
 	github.com/goreleaser/goreleaser/v2
+	github.com/vektra/mockery/v2
 	gotest.tools/gotestsum
 	mvdan.cc/gofumpt
 )
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/katallaxie/pkg v0.7.10-0.20250910092229-60b4ff0e4381
+	github.com/katallaxie/pkg v0.7.10
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/spf13/cobra v1.10.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20250804133106-a7a43d27e69b
@@ -227,15 +227,15 @@ require (
 	go.uber.org/automaxprocs v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/crypto v0.42.0 // indirect
+	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/exp/typeparams v0.0.0-20250210185358-939b2ce775ac // indirect
-	golang.org/x/mod v0.28.0 // indirect
-	golang.org/x/net v0.43.0 // indirect
+	golang.org/x/mod v0.29.0 // indirect
+	golang.org/x/net v0.45.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
-	golang.org/x/term v0.35.0 // indirect
-	golang.org/x/text v0.29.0 // indirect
-	golang.org/x/tools v0.36.0 // indirect
+	golang.org/x/sys v0.37.0 // indirect
+	golang.org/x/term v0.36.0 // indirect
+	golang.org/x/text v0.30.0 // indirect
+	golang.org/x/tools v0.37.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250804133106-a7a43d27e69b // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
