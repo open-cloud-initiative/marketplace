@@ -15,7 +15,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/katallaxie/pkg v0.7.10
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	google.golang.org/genproto/googleapis/api v0.0.0-20251022142026-3a174f9686a8
 	google.golang.org/grpc v1.77.0
 	google.golang.org/protobuf v1.36.10
